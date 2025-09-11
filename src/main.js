@@ -7,6 +7,7 @@ import { updateUI } from './view.js'
 const validateURL = (url, state) => {
   if (state.feeds.includes(url)) {
     state.errors.push('RSS уже существует')
+    return Promise.resolve()
   }
   const schema = yup.string().required().url('Ссылка должна быть валидным URL')
   return schema.validate(url)
@@ -21,13 +22,15 @@ export default () => {
   }
 
   const urlInput = document.querySelector('#url-input')
-  const button = document.querySelector('button')
+  //const button = document.querySelector('button')
 
-  button.addEventListener('submit', (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault()
     const currentURL = urlInput.value
     validateURL(currentURL, state)
-    updateUI(state, urlInput)
+      .then(() => {
+        updateUI(state, urlInput)
+      })
   })
 }
 

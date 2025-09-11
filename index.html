@@ -9,7 +9,10 @@
     <div id="app">
       <h1>RSS-агрегатор</h1>
       <form id="rss-form">
-        <input id="url-input" type="text" required>
+        <div class="form-floating">
+          <input id="url-input" autofocus="" type="text" name="url" placeholder="ссылка RSS" autocomplete="off" required>
+          <label for="url-input">Ссылка RSS</label>
+        </div>
         <button type="submit" class="btn btn-primary">Добавить</button>
       </form>
     </div>

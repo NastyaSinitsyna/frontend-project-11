@@ -6,13 +6,11 @@ import { updateUI } from './view.js'
 
 const validateURL = (url, state) => {
   if (state.feeds.includes(url)) {
-    state.errors.push('RSS уже существует')
-    return Promise.resolve()
+    return Promise.reject(new Error('RSS уже существует'))
   }
   const schema = yup.string().required().url('Ссылка должна быть валидным URL')
   return schema.validate(url)
     .then(result => state.feeds.push(result))
-    .catch(error => state.errors.push(error.message))
 }
 
 export default () => {
@@ -22,13 +20,18 @@ export default () => {
   }
 
   const urlInput = document.querySelector('#url-input')
-  //const button = document.querySelector('button')
+  const form = document.querySelector('#rss-form')
 
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     const currentURL = urlInput.value
     validateURL(currentURL, state)
       .then(() => {
+        state.errors = []
+        updateUI(state, urlInput)
+      })
+      .catch((error) => {
+        state.errors = [error.message]
         updateUI(state, urlInput)
       })
   })

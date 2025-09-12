@@ -2,9 +2,9 @@ import 'bootstrap';
 import './style.css';
 
 export const updateUI = (state, input) => {
-  const oldError = input.parentElement.querySelector('.error-message')
-  if (oldError) {
-    oldError.remove()
+  const feedback = document.querySelector('.feedback')
+  if (feedback) {
+    feedback.textContent = ''
   }
   if (state.errors.length === 0) {
     input.classList.remove('is-invalid')
@@ -14,9 +14,6 @@ export const updateUI = (state, input) => {
   else {
     input.focus()
     input.classList.add('is-invalid')
-    const errorMessage = document.createElement('p')
-    errorMessage.classList.add('error-message')
-    errorMessage.textContent = state.errors.join(", ")
-    input.parentElement.appendChild(errorMessage)
+    feedback.textContent = state.errors.join(", ")
   }
 }

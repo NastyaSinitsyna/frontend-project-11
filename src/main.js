@@ -13,7 +13,7 @@ const validateURL = (url, state) => {
     .then(result => state.feeds.push(result))
 }
 
-export default () => {
+const app = () => {
   const state = {
     feeds: [],
     errors: []
@@ -37,3 +37,4 @@ export default () => {
   })
 }
 
+app()

@@ -7,15 +7,18 @@
   </head>
   <body>
     <div id="app">
-      <h1>RSS-агрегатор</h1>
+      <div class="container d-flex gap-2 mx-auto" style="max-width: 600px">
+        <h1>RSS-агрегатор</h1>
+      </div>
       <form id="rss-form">
-        <div>
-          <input id="url-input" autofocus="" type="text" name="url" placeholder="ссылка RSS" autocomplete="off" required>
+        <div class="container d-flex gap-2 mx-auto" style="max-width: 600px">
+          <input id="url-input" class="form-control" autofocus="" type="text" name="url" placeholder="ссылка RSS" autocomplete="off" required>
           <label for="url-input" class="visually-hidden">Ссылка RSS</label>
+          <button type="submit" class="btn btn-primary">Добавить</button>
         </div>
-        <button type="submit" class="btn btn-primary">Добавить</button>
       </form>
+      <p class="feedback"></p>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
   </body>
 </html>

@@ -2,6 +2,7 @@ import 'bootstrap';
 import './style.css';
 
 import * as yup from 'yup'
+import onChange from 'on-change'
 import { updateUI } from './view.js'
 
 const validateURL = (url, state) => {
@@ -16,23 +17,25 @@ const validateURL = (url, state) => {
 const app = () => {
   const state = {
     feeds: [],
-    errors: []
+    errors: [],
   }
 
   const urlInput = document.querySelector('#url-input')
   const form = document.querySelector('#rss-form')
 
+  const watchedState = onChange(state, () => {
+  updateUI(watchedState, urlInput);
+});
+
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     const currentURL = urlInput.value
-    validateURL(currentURL, state)
+    validateURL(currentURL, watchedState)
       .then(() => {
-        state.errors = []
-        updateUI(state, urlInput)
+        watchedState.errors = []
       })
       .catch((error) => {
-        state.errors = [error.message]
-        updateUI(state, urlInput)
+        watchedState.errors = [error.message]
       })
   })
 }

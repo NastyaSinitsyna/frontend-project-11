@@ -1,7 +1,8 @@
 import 'bootstrap';
+import i18n from 'i18next'
 import './style.css';
 
-export const updateUI = (state, input) => {
+export const updateUI = (state, input, i18n) => {
   const feedback = document.querySelector('.feedback')
   if (feedback) {
     feedback.textContent = ''
@@ -14,6 +15,8 @@ export const updateUI = (state, input) => {
   else {
     input.focus()
     input.classList.add('is-invalid')
-    feedback.textContent = state.errors.join(", ")
+    feedback.textContent = state.errors
+      .map((errKey) => i18n.t(errKey))  
+      .join(", ")
   }
 }

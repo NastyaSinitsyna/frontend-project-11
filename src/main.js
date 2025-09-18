@@ -6,14 +6,9 @@ import onChange from 'on-change'
 import i18n from 'i18next'
 import { updateUI } from './view.js'
 import ru from './locales/ru.js'
+import validateURL from './validateURL.js'
 
-const validateURL = (url, state) => {
-  const schema = yup.string().required().url().notOneOf(state.feeds)
-  return schema.validate(url)
-    .then(result => state.feeds.push(result))
-}
-
-const app = () => {
+export default () => {
   const i18nInstance = i18n.createInstance()
   i18nInstance.init({
     lng: 'ru',
@@ -65,5 +60,3 @@ const app = () => {
     })
   })
 }
-
-export default app

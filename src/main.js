@@ -1,5 +1,5 @@
-import 'bootstrap';
-import './style.css';
+import 'bootstrap'
+import './style.css'
 
 import * as yup from 'yup'
 import onChange from 'on-change'
@@ -16,47 +16,47 @@ export default () => {
       ru: ru,
     },
   })
-  .then((t) => {
-    yup.setLocale({
-      mixed: {
-        notOneOf: () => i18nInstance.t('errors.duplicate'),
-      },
-      string: {
-        url: () => i18nInstance.t('errors.invalidUrl'),
-      },
+    .then(() => {
+      yup.setLocale({
+        mixed: {
+          notOneOf: () => i18nInstance.t('errors.duplicate'),
+        },
+        string: {
+          url: () => i18nInstance.t('errors.invalidUrl'),
+        },
+      })
+
+      const state = {
+        feeds: [],
+        errors: [],
+      }
+
+      const urlInput = document.querySelector('#url-input')
+      const form = document.querySelector('#rss-form')
+
+      const watchedState = onChange(state, () => {
+        updateUI(watchedState, urlInput, i18nInstance)
+      })
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const currentURL = urlInput.value
+        validateURL(currentURL, watchedState)
+          .then(() => {
+            watchedState.errors = []
+          })
+          .catch((error) => {
+            switch (error.type) {
+              case 'notOneOf':
+                watchedState.errors = ['errors.duplicate']
+                break
+              case 'url':
+                watchedState.errors = ['errors.invalidUrl']
+                break
+              default:
+                watchedState.errors = ['errors.unknown']
+            }
+          })
+      })
     })
-  
-    const state = {
-      feeds: [],
-      errors: [],
-    }
-
-    const urlInput = document.querySelector('#url-input')
-    const form = document.querySelector('#rss-form')
-
-    const watchedState = onChange(state, () => {
-      updateUI(watchedState, urlInput, i18nInstance);
-    });
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault()
-      const currentURL = urlInput.value
-      validateURL(currentURL, watchedState)
-        .then(() => {
-          watchedState.errors = []
-        })
-        .catch((error) => {
-          switch (error.type) {
-            case 'notOneOf':
-              watchedState.errors = ['errors.duplicate']
-              break
-            case 'url':
-              watchedState.errors = ['errors.invalidUrl']
-              break
-            default:
-              watchedState.errors = ['errors.unknown']
-          }
-        })
-    })
-  })
 }

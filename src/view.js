@@ -2,7 +2,8 @@ import 'bootstrap'
 // import i18n from 'i18next'
 import './style.css'
 
-export const updateUI = (state, input, i18n) => {
+export const renderErrors = (state, i18n) => {
+  const input = document.querySelector('#url-input')
   const feedback = document.querySelector('.feedback')
   if (feedback) {
     feedback.textContent = ''
@@ -17,6 +18,6 @@ export const updateUI = (state, input, i18n) => {
     input.classList.add('is-invalid')
     feedback.textContent = state.errors
       .map(errKey => i18n.t(errKey))
-      .join(',')
+      .join(', ')
   }
 }

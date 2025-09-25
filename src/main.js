@@ -2,11 +2,13 @@ import 'bootstrap'
 import './style.css'
 
 import * as yup from 'yup'
+// import axios from 'axios'
 import onChange from 'on-change'
 import i18n from 'i18next'
-import { updateUI } from './view.js'
+import { renderErrors } from './view.js'
 import ru from './locales/ru.js'
 import validateURL from './validateURL.js'
+import getPosts from './getPosts.js'
 
 export default () => {
   const i18nInstance = i18n.createInstance()
@@ -28,6 +30,7 @@ export default () => {
 
       const state = {
         feeds: [],
+        posts: [],
         errors: [],
       }
 
@@ -35,26 +38,35 @@ export default () => {
       const form = document.querySelector('#rss-form')
 
       const watchedState = onChange(state, () => {
-        updateUI(watchedState, urlInput, i18nInstance)
+        renderErrors(watchedState, i18nInstance)
       })
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()
         const currentURL = urlInput.value
         validateURL(currentURL, watchedState)
-          .then(() => {
+          .then((validatedUrl) => {
             watchedState.errors = []
+            return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
-            switch (error.type) {
-              case 'notOneOf':
-                watchedState.errors = ['errors.duplicate']
-                break
-              case 'url':
-                watchedState.errors = ['errors.invalidUrl']
-                break
-              default:
-                watchedState.errors = ['errors.unknown']
+            if (error.name === 'ValidationError') {
+              switch (error.type) {
+                case 'notOneOf':
+                  watchedState.errors = ['errors.duplicate']
+                  break
+                case 'url':
+                  watchedState.errors = ['errors.invalidUrl']
+                  break
+                default:
+                  watchedState.errors = ['errors.unknown']
+              }
+            }
+            else if (error.isAxiosError) {
+              watchedState.errors = ['errors.networkError']
+            }
+            else {
+              watchedState.errors = ['errors.unknown']
             }
           })
       })

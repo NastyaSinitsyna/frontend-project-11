@@ -5,7 +5,7 @@ import * as yup from 'yup'
 // import axios from 'axios'
 import onChange from 'on-change'
 import i18n from 'i18next'
-import { renderErrors } from './view.js'
+import { renderErrors, renderFeedsAndPosts } from './view.js'
 import ru from './locales/ru.js'
 import validateURL from './validateURL.js'
 import getPosts from './getPosts.js'
@@ -39,6 +39,7 @@ export default () => {
 
       const watchedState = onChange(state, () => {
         renderErrors(watchedState, i18nInstance)
+        renderFeedsAndPosts(watchedState)
       })
 
       form.addEventListener('submit', (e) => {

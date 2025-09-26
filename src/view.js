@@ -21,3 +21,25 @@ export const renderErrors = (state, i18n) => {
       .join(', ')
   }
 }
+
+export const renderFeedsAndPosts = (state) => {
+  const feedsContainer = document.querySelector('.feeds')
+  const feedsHeader = document.createElement('h2')
+  feedsHeader.textContent = 'Фиды'
+  feedsContainer.append(feedsHeader)
+  state.feeds.forEach((feed) => {
+    const feedTitle = document.createElement('h3')
+    feedTitle.textContent = feed.title
+    feedsContainer.appendChild(feedTitle)
+  })
+
+  const postsContainer = document.querySelector('.posts')
+  const postsHeader = document.createElement('h2')
+  postsHeader.textContent = 'Посты'
+  postsContainer.append(postsHeader)
+  state.posts.forEach((post) => {
+    const postTitle = document.createElement('h3')
+    postTitle.textContent = post.title
+    postsContainer.appendChild(postTitle)
+  })
+}

@@ -6,5 +6,9 @@ export default {
       networkError: 'Ошибка сети',
       unknown: 'Неизвестная ошибка',
     },
+    view: {
+      feedsHeader: 'Фиды',
+      postsHeader: 'Посты',
+    },
   },
 }

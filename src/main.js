@@ -39,7 +39,7 @@ export default () => {
 
       const watchedState = onChange(state, () => {
         renderErrors(watchedState, i18nInstance)
-        renderFeedsAndPosts(watchedState)
+        renderFeedsAndPosts(watchedState, i18nInstance)
       })
 
       form.addEventListener('submit', (e) => {

@@ -22,10 +22,11 @@ export const renderErrors = (state, i18n) => {
   }
 }
 
-export const renderFeedsAndPosts = (state) => {
+export const renderFeedsAndPosts = (state, i18n) => {
   const feedsContainer = document.querySelector('.feeds')
+  feedsContainer.innerHTML = ''
   const feedsHeader = document.createElement('h2')
-  feedsHeader.textContent = 'Фиды'
+  feedsHeader.textContent = i18n.t('view.feedsHeader')
   feedsContainer.append(feedsHeader)
   state.feeds.forEach((feed) => {
     const feedTitle = document.createElement('h3')
@@ -34,8 +35,9 @@ export const renderFeedsAndPosts = (state) => {
   })
 
   const postsContainer = document.querySelector('.posts')
+  postsContainer.innerHTML = ''
   const postsHeader = document.createElement('h2')
-  postsHeader.textContent = 'Посты'
+  postsHeader.textContent = i18n.t('view.postsHeader')
   postsContainer.append(postsHeader)
   state.posts.forEach((post) => {
     const postTitle = document.createElement('h3')

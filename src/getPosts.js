@@ -36,7 +36,11 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
       postId: post.querySelector('link').textContent.replace(/\W+/g, '_'),
     }))
     // console.log(posts)
-    state.posts.push(...posts)
+    posts.forEach((post) => {
+      if (!state.posts.find(statePost => statePost.description === post.description)) {
+        state.posts.push(post)
+      }
+    })
     // console.log(state)
     return state
   })

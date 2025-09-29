@@ -1,5 +1,6 @@
 import axios from 'axios'
 import parse from './parse.js'
+import _ from 'lodash'
 
 const getUrlContents = (feedUrl) => {
   return axios.get('https://allorigins.hexlet.app/get', {
@@ -20,8 +21,12 @@ const getUrlContents = (feedUrl) => {
 
 const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
   .then((contents) => {
-    const currentFeed = state.feeds.find(feed => feed.feedUrl === feedUrl)
-    currentFeed.title = contents.querySelector('channel > title')
+    const currentFeed = {
+      feedUrl: feedUrl,
+      feedId: _.uniqueId(),
+      title: contents.querySelector('channel > title').textContent,
+    }
+    state.feeds.push(currentFeed)
 
     const posts = [...contents.querySelectorAll('item')].map(post => ({
       title: post.querySelector('title').textContent,
@@ -30,6 +35,7 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
       feedId: currentFeed.feedId,
       postId: post.querySelector('link').textContent.replace(/\W+/g, '_'),
     }))
+    // console.log(posts)
     state.posts.push(...posts)
     // console.log(state)
     return state

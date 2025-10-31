@@ -9,6 +9,7 @@ import { renderErrors, renderFeedsAndPosts } from './view.js'
 import ru from './locales/ru.js'
 import validateURL from './validateURL.js'
 import getPosts from './getPosts.js'
+import updatePosts from './updatePosts.js'
 
 export default () => {
   const i18nInstance = i18n.createInstance()
@@ -71,5 +72,7 @@ export default () => {
             }
           })
       })
+
+      updatePosts(state.feeds, watchedState)
     })
 }

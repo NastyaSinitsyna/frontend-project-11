@@ -26,7 +26,9 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
       feedId: _.uniqueId(),
       title: contents.querySelector('channel > title').textContent,
     }
-    state.feeds.push(currentFeed)
+    if (!state.feeds.find(stateFeed => stateFeed.feedUrl === currentFeed.feedUrl)) {
+      state.feeds.push(currentFeed)
+    }
 
     const posts = [...contents.querySelectorAll('item')].map(post => ({
       title: post.querySelector('title').textContent,
@@ -37,7 +39,7 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
     }))
     // console.log(posts)
     posts.forEach((post) => {
-      if (!state.posts.find(statePost => statePost.description === post.description)) {
+      if (!state.posts.find(statePost => statePost.postId === post.postId)) {
         state.posts.push(post)
       }
     })

@@ -13,7 +13,7 @@ const getUrlContents = (feedUrl) => {
       // console.log('Axios response:', response)
       const contents = parse(response.data.contents, 'application/xml')
       if (contents.querySelector('parsererror')) {
-        throw new Error('Invalid RSS format')
+        console.log('Invalid RSS format')
       }
       return contents
     })

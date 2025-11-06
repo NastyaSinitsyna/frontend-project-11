@@ -9,6 +9,7 @@ export default {
     view: {
       feedsHeader: 'Фиды',
       postsHeader: 'Посты',
+      prewatchButton: 'Просмотр',
     },
   },
 }

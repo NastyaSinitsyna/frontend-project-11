@@ -10,6 +10,8 @@ export default {
       feedsHeader: 'Фиды',
       postsHeader: 'Посты',
       prewatchButton: 'Просмотр',
+      closeButton: 'Закрыть',
+      readButton: 'Читать полностью',
     },
   },
 }

@@ -43,7 +43,13 @@ export const renderFeedsAndPosts = (state, i18n) => {
   state.posts.forEach((post) => {
     const postTitle = document.createElement('h3')
     postTitle.textContent = post.title
-    postTitle.classList.add('fw-bold')
+    if (state.uiState.watchedPosts.has(post.postId)) {
+      postTitle.classList.add('fw-normal')
+    }
+    else {
+      postTitle.classList.add('fw-bold')
+    }
+
     const prewatchButton = document.createElement('button')
     prewatchButton.classList.add('btn', 'btn-outline-primary')
     prewatchButton.dataset.bsToggle = 'modal'

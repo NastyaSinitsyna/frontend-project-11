@@ -33,6 +33,8 @@ export default () => {
         feeds: [],
         posts: [],
         errors: [],
+        uiState:
+          { watchedPosts: new Set() },
       }
 
       const urlInput = document.querySelector('#url-input')

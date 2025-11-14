@@ -54,6 +54,9 @@ export default () => {
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
+            if (error.name === 'RssError') {
+              watchedState.errors = ['errors.invalidRss']
+            }
             if (error.name === 'ValidationError') {
               switch (error.type) {
                 case 'notOneOf':

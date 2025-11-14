@@ -6,10 +6,13 @@ import './style.css'
 export const renderErrors = (state, i18n) => {
   const input = document.querySelector('#url-input')
   const feedback = document.querySelector('.feedback')
+  feedback.classList.remove('text-success', 'text-danger')
   if (feedback) {
     feedback.textContent = ''
   }
   if (state.errors.length === 0) {
+    feedback.textContent = i18n.t('success')
+    feedback.classList.add('text-success')
     input.classList.remove('is-invalid')
     input.value = ''
     input.focus()
@@ -17,6 +20,7 @@ export const renderErrors = (state, i18n) => {
   else {
     input.focus()
     input.classList.add('is-invalid')
+    feedback.classList.add('text-danger')
     feedback.textContent = state.errors
       .map(errKey => i18n.t(errKey))
       .join(', ')

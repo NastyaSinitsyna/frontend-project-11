@@ -41,11 +41,13 @@ export const renderFeedsAndPosts = (state, i18n) => {
 
   const postsContainer = document.querySelector('.posts')
   postsContainer.innerHTML = ''
+  postsContainer.classList.add('vstack', 'gap-3')
   const postsHeader = document.createElement('h2')
   postsHeader.textContent = i18n.t('view.postsHeader')
   postsContainer.append(postsHeader)
   state.posts.forEach((post) => {
-    const postTitle = document.createElement('h3')
+    const postTitle = document.createElement('a')
+    postTitle.setAttribute('href', post.link)
     postTitle.textContent = post.title
     if (state.uiState.watchedPosts.has(post.postId)) {
       postTitle.classList.add('fw-normal')

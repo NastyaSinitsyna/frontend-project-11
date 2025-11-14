@@ -11,9 +11,12 @@ const getUrlContents = (feedUrl) => {
   })
     .then((response) => {
       // console.log('Axios response:', response)
-      const contents = parse(response.data.contents, 'application/xml')
+      const contents = parse(response.data.contents, 'text/xml')
       if (contents.querySelector('parsererror')) {
-        console.log('Invalid RSS format')
+        const err = new Error('invalid RSS format')
+        err.type = 'rss'
+        err.name = 'RssError'
+        throw err
       }
       return contents
     })
@@ -43,7 +46,7 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
         state.posts.push(post)
       }
     })
-    // console.log(state)
+    console.log(state)
     return state
   })
 

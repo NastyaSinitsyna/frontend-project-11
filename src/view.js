@@ -36,14 +36,20 @@ export const renderFeedsAndPosts = (state, i18n) => {
   feedsHeader.textContent = i18n.t('view.feedsHeader')
   feedsContainer.append(feedsHeader)
   const feedsList = document.createElement('ul')
+  feedsList.classList.add('list-group')
   feedsContainer.append(feedsList)
   state.feeds.forEach((feed) => {
     const feedItem = document.createElement('li')
-    feedItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
-    const feedTitle = document.createElement('h6')
+    feedItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0')
+    const feedTitle = document.createElement('h3')
     feedTitle.textContent = feed.title
+    feedTitle.classList.add('h6')
 
-    feedItem.append(feedTitle)
+    const feedDescription = document.createElement('p')
+    feedDescription.textContent = feed.description
+    feedDescription.classList.add('small')
+
+    feedItem.append(feedTitle, feedDescription)
     feedsList.append(feedItem)
   })
 
@@ -54,10 +60,11 @@ export const renderFeedsAndPosts = (state, i18n) => {
   postsHeader.textContent = i18n.t('view.postsHeader')
   postsContainer.append(postsHeader)
   const postsList = document.createElement('ul')
+  postsList.classList.add('list-group')
   postsContainer.append(postsList)
   state.posts.forEach((post) => {
     const postItem = document.createElement('li')
-    postItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
+    postItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0')
     const postTitle = document.createElement('a')
     postTitle.setAttribute('href', post.link)
     postTitle.textContent = post.title

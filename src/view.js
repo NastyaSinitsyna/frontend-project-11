@@ -39,7 +39,7 @@ export const renderFeedsAndPosts = (state, i18n) => {
   feedsContainer.append(feedsList)
   state.feeds.forEach((feed) => {
     const feedItem = document.createElement('li')
-    feedItem.classList.add('.list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
+    feedItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
     const feedTitle = document.createElement('h6')
     feedTitle.textContent = feed.title
 
@@ -57,7 +57,7 @@ export const renderFeedsAndPosts = (state, i18n) => {
   postsContainer.append(postsList)
   state.posts.forEach((post) => {
     const postItem = document.createElement('li')
-    postItem.classList.add('.list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
+    postItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
     const postTitle = document.createElement('a')
     postTitle.setAttribute('href', post.link)
     postTitle.textContent = post.title

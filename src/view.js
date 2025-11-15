@@ -30,22 +30,34 @@ export const renderErrors = (state, i18n) => {
 export const renderFeedsAndPosts = (state, i18n) => {
   const feedsContainer = document.querySelector('.feeds')
   feedsContainer.innerHTML = ''
+  feedsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
+
   const feedsHeader = document.createElement('h2')
   feedsHeader.textContent = i18n.t('view.feedsHeader')
   feedsContainer.append(feedsHeader)
+  const feedsList = document.createElement('ul')
+  feedsContainer.append(feedsList)
   state.feeds.forEach((feed) => {
-    const feedTitle = document.createElement('h3')
+    const feedItem = document.createElement('li')
+    feedItem.classList.add('.list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
+    const feedTitle = document.createElement('h6')
     feedTitle.textContent = feed.title
-    feedsContainer.appendChild(feedTitle)
+
+    feedItem.append(feedTitle)
+    feedsList.append(feedItem)
   })
 
   const postsContainer = document.querySelector('.posts')
   postsContainer.innerHTML = ''
-  postsContainer.classList.add('vstack', 'gap-3')
+  postsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
   const postsHeader = document.createElement('h2')
   postsHeader.textContent = i18n.t('view.postsHeader')
   postsContainer.append(postsHeader)
+  const postsList = document.createElement('ul')
+  postsContainer.append(postsList)
   state.posts.forEach((post) => {
+    const postItem = document.createElement('li')
+    postItem.classList.add('.list-group-item', 'd-flex', 'justify-content-between', 'align-items-start')
     const postTitle = document.createElement('a')
     postTitle.setAttribute('href', post.link)
     postTitle.textContent = post.title
@@ -70,8 +82,8 @@ export const renderFeedsAndPosts = (state, i18n) => {
       toggleModal(e, state, modal)
     })
 
-    postTitle.append(prewatchButton)
-    postsContainer.append(postTitle)
+    postItem.append(postTitle, prewatchButton)
+    postsList.append(postItem)
   })
 }
 

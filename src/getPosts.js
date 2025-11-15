@@ -28,6 +28,7 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
       feedUrl: feedUrl,
       feedId: _.uniqueId(),
       title: contents.querySelector('channel > title').textContent,
+      description: contents.querySelector('channel > description').textContent,
     }
     if (!state.feeds.find(stateFeed => stateFeed.feedUrl === currentFeed.feedUrl)) {
       state.feeds.push(currentFeed)

@@ -56,6 +56,7 @@ export default () => {
           .catch((error) => {
             if (error.name === 'RssError') {
               watchedState.errors = ['errors.invalidRss']
+              return
             }
             if (error.name === 'ValidationError') {
               switch (error.type) {

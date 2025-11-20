@@ -36,17 +36,23 @@ export default () => {
           { watchedPosts: new Set() },
       }
 
-      const urlInput = document.querySelector('#url-input')
+      const elements = {
+        urlInput: document.querySelector('#url-input'),
+        feedback: document.querySelector('.feedback'),
+        feedsContainer: document.querySelector('.feeds'),
+        postsContainer: document.querySelector('.posts'),
+      }
+
       const form = document.querySelector('#rss-form')
 
       const watchedState = onChange(state, () => {
-        renderErrors(watchedState, i18nInstance)
-        renderFeedsAndPosts(watchedState, i18nInstance)
+        renderErrors(watchedState, elements, i18nInstance)
+        renderFeedsAndPosts(watchedState, elements, i18nInstance)
       })
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()
-        const currentURL = urlInput.value
+        const currentURL = elements.urlInput.value
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
             watchedState.errors = []

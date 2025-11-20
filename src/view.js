@@ -1,9 +1,9 @@
 import 'bootstrap'
 import './style.css'
 
-export const renderErrors = (state, i18n) => {
-  const input = document.querySelector('#url-input')
-  const feedback = document.querySelector('.feedback')
+export const renderErrors = (state, elements, i18n) => {
+  const input = elements.urlInput
+  const feedback = elements.feedback
   feedback.classList.remove('text-success', 'text-danger')
   if (feedback) {
     feedback.textContent = ''
@@ -25,8 +25,8 @@ export const renderErrors = (state, i18n) => {
   }
 }
 
-export const renderFeedsAndPosts = (state, i18n) => {
-  const feedsContainer = document.querySelector('.feeds')
+export const renderFeedsAndPosts = (state, elements, i18n) => {
+  const feedsContainer = elements.feedsContainer
   feedsContainer.innerHTML = ''
   feedsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
 
@@ -51,7 +51,7 @@ export const renderFeedsAndPosts = (state, i18n) => {
     feedsList.append(feedItem)
   })
 
-  const postsContainer = document.querySelector('.posts')
+  const postsContainer = elements.postsContainer
   postsContainer.innerHTML = ''
   postsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
   const postsHeader = document.createElement('h2')

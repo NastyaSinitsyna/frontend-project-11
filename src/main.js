@@ -3,7 +3,7 @@ import './style.css'
 
 import * as yup from 'yup'
 import i18n from 'i18next'
-import watchStateChanges from './view.js'
+import { watchStateChanges, toggleModal } from './view.js'
 import ru from './locales/ru.js'
 import validateURL from './validateURL.js'
 import getPosts from './getPosts.js'
@@ -40,6 +40,7 @@ export default () => {
         feedback: document.querySelector('.feedback'),
         feedsContainer: document.querySelector('.feeds'),
         postsContainer: document.querySelector('.posts'),
+        modal: document.querySelector('.modal'),
       }
 
       const form = document.querySelector('#rss-form')
@@ -78,6 +79,16 @@ export default () => {
               watchedState.errors = ['errors.unknown']
             }
           })
+      })
+
+      elements.postsContainer.addEventListener('click', (e) => {
+        const prewatchButton = e.target.closest('.prewatch-btn')
+        if (!prewatchButton) {
+          return
+        }
+        const targetPostId = prewatchButton.id
+        state.uiState.watchedPosts.add(targetPostId)
+        toggleModal(e, watchedState, elements)
       })
 
       updatePosts(state.feeds, watchedState)

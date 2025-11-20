@@ -77,25 +77,19 @@ const renderPosts = (state, elements, i18n) => {
     }
 
     const prewatchButton = document.createElement('button')
-    prewatchButton.classList.add('btn', 'btn-outline-primary')
+    prewatchButton.classList.add('btn', 'btn-outline-primary', 'prewatch-btn')
     prewatchButton.dataset.bsToggle = 'modal'
     prewatchButton.dataset.bsTarget = '#modal'
     prewatchButton.textContent = i18n.t('view.prewatchButton')
     prewatchButton.setAttribute('id', `${post.postId}`)
-
-    prewatchButton.addEventListener('click', (e) => {
-      const targetPostId = prewatchButton.id
-      state.uiState.watchedPosts.add(targetPostId)
-      const modal = document.querySelector('.modal')
-      toggleModal(e, state, modal)
-    })
 
     postItem.append(postTitle, prewatchButton)
     postsList.append(postItem)
   })
 }
 
-const toggleModal = (e, state, modal) => {
+export const toggleModal = (e, state, elements) => {
+  const modal = elements.modal
   const targetPostId = e.target.id
   const targetPost = state.posts.find(post => post.postId === targetPostId)
   const targetPostTitle = targetPost.title
@@ -108,7 +102,7 @@ const toggleModal = (e, state, modal) => {
   modalTextBreak.textContent = targetPostDescription
 }
 
-const watchStateChanges = (state, elements, i18n) => {
+export const watchStateChanges = (state, elements, i18n) => {
   const watchedState = onChange(state, (path) => {
     switch (path) {
       case 'errors':
@@ -123,5 +117,3 @@ const watchStateChanges = (state, elements, i18n) => {
   })
   return watchedState
 }
-
-export default watchStateChanges

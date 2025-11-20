@@ -1,7 +1,8 @@
 import 'bootstrap'
 import './style.css'
+import onChange from 'on-change'
 
-export const renderErrors = (state, elements, i18n) => {
+const renderErrors = (state, elements, i18n) => {
   const input = elements.urlInput
   const feedback = elements.feedback
   feedback.classList.remove('text-success', 'text-danger')
@@ -25,7 +26,7 @@ export const renderErrors = (state, elements, i18n) => {
   }
 }
 
-export const renderFeeds = (state, elements, i18n) => {
+const renderFeeds = (state, elements, i18n) => {
   const feedsContainer = elements.feedsContainer
   feedsContainer.innerHTML = ''
   feedsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
@@ -52,7 +53,7 @@ export const renderFeeds = (state, elements, i18n) => {
   })
 }
 
-export const renderPosts = (state, elements, i18n) => {
+const renderPosts = (state, elements, i18n) => {
   const postsContainer = elements.postsContainer
   postsContainer.innerHTML = ''
   postsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
@@ -94,7 +95,7 @@ export const renderPosts = (state, elements, i18n) => {
   })
 }
 
-export const toggleModal = (e, state, modal) => {
+const toggleModal = (e, state, modal) => {
   const targetPostId = e.target.id
   const targetPost = state.posts.find(post => post.postId === targetPostId)
   const targetPostTitle = targetPost.title
@@ -106,3 +107,21 @@ export const toggleModal = (e, state, modal) => {
   const modalTextBreak = modal.querySelector('.text-break')
   modalTextBreak.textContent = targetPostDescription
 }
+
+const watchStateChanges = (state, elements, i18n) => {
+  const watchedState = onChange(state, (path) => {
+    switch (path) {
+      case 'errors':
+        renderErrors(watchedState, elements, i18n)
+        break
+      case 'feeds':
+        renderFeeds(watchedState, elements, i18n)
+        break
+      case 'posts':
+        renderPosts(watchedState, elements, i18n)
+    }
+  })
+  return watchedState
+}
+
+export default watchStateChanges

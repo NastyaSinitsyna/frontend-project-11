@@ -2,9 +2,8 @@ import 'bootstrap'
 import './style.css'
 
 import * as yup from 'yup'
-import onChange from 'on-change'
 import i18n from 'i18next'
-import { renderErrors, renderFeeds, renderPosts } from './view.js'
+import watchStateChanges from './view.js'
 import ru from './locales/ru.js'
 import validateURL from './validateURL.js'
 import getPosts from './getPosts.js'
@@ -45,11 +44,7 @@ export default () => {
 
       const form = document.querySelector('#rss-form')
 
-      const watchedState = onChange(state, () => {
-        renderErrors(watchedState, elements, i18nInstance)
-        renderFeeds(watchedState, elements, i18nInstance)
-        renderPosts(watchedState, elements, i18nInstance)
-      })
+      const watchedState = watchStateChanges(state, elements, i18nInstance)
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()

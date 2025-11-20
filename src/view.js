@@ -25,7 +25,7 @@ export const renderErrors = (state, elements, i18n) => {
   }
 }
 
-export const renderFeedsAndPosts = (state, elements, i18n) => {
+export const renderFeeds = (state, elements, i18n) => {
   const feedsContainer = elements.feedsContainer
   feedsContainer.innerHTML = ''
   feedsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')
@@ -50,7 +50,9 @@ export const renderFeedsAndPosts = (state, elements, i18n) => {
     feedItem.append(feedTitle, feedDescription)
     feedsList.append(feedItem)
   })
+}
 
+export const renderPosts = (state, elements, i18n) => {
   const postsContainer = elements.postsContainer
   postsContainer.innerHTML = ''
   postsContainer.classList.add('vstack', 'gap-3', 'mx-auto', 'col-md-10', 'col-lg-8')

@@ -2,7 +2,6 @@ import 'bootstrap'
 import './style.css'
 
 import * as yup from 'yup'
-// import axios from 'axios'
 import onChange from 'on-change'
 import i18n from 'i18next'
 import { renderErrors, renderFeedsAndPosts } from './view.js'

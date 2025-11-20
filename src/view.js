@@ -1,7 +1,5 @@
 import 'bootstrap'
-// import i18n from 'i18next'
 import './style.css'
-// import onChange from 'on-change'
 
 export const renderErrors = (state, i18n) => {
   const input = document.querySelector('#url-input')

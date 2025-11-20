@@ -10,7 +10,6 @@ const getUrlContents = (feedUrl) => {
     },
   })
     .then((response) => {
-      // console.log('Axios response:', response)
       const contents = parse(response.data.contents, 'text/xml')
       if (contents.querySelector('parsererror')) {
         const err = new Error('invalid RSS format')
@@ -41,7 +40,6 @@ const getPosts = (feedUrl, state) => getUrlContents(feedUrl)
       feedId: currentFeed.feedId,
       postId: post.querySelector('link').textContent.replace(/\W+/g, '_'),
     }))
-    // console.log(posts)
     posts.forEach((post) => {
       if (!state.posts.find(statePost => statePost.postId === post.postId)) {
         state.posts.push(post)

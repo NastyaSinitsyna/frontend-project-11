@@ -3,7 +3,7 @@ import './style.css'
 
 import * as yup from 'yup'
 import i18n from 'i18next'
-import { watchStateChanges, toggleModal } from './view.js'
+import { watchStateChanges } from './view.js'
 import ru from './locales/ru.js'
 import validateURL from './validateURL.js'
 import getPosts from './getPosts.js'
@@ -89,8 +89,8 @@ export default () => {
           return
         }
         const targetPostId = prewatchButton.id
-        state.uiState.watchedPosts.add(targetPostId)
-        state.uiState.currentPost = targetPostId
+        watchedState.uiState.watchedPosts.add(targetPostId)
+        watchedState.uiState.currentPost = targetPostId
       })
 
       updatePosts(state.feeds, watchedState)

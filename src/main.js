@@ -31,8 +31,10 @@ export default () => {
         feeds: [],
         posts: [],
         errors: [],
-        uiState:
-          { watchedPosts: new Set() },
+        uiState: {
+          watchedPosts: new Set(),
+          currentPost: null,
+        },
       }
 
       const elements = {
@@ -88,7 +90,7 @@ export default () => {
         }
         const targetPostId = prewatchButton.id
         state.uiState.watchedPosts.add(targetPostId)
-        toggleModal(e, watchedState, elements)
+        state.uiState.currentPost = targetPostId
       })
 
       updatePosts(state.feeds, watchedState)

@@ -88,9 +88,9 @@ const renderPosts = (state, elements, i18n) => {
   })
 }
 
-export const toggleModal = (e, state, elements) => {
+export const toggleModal = (state, elements) => {
   const modal = elements.modal
-  const targetPostId = e.target.id
+  const targetPostId = state.uiState.currentPost
   const targetPost = state.posts.find(post => post.postId === targetPostId)
   const targetPostTitle = targetPost.title
   const targetPostDescription = targetPost.description
@@ -113,6 +113,12 @@ export const watchStateChanges = (state, elements, i18n) => {
         break
       case 'posts':
         renderPosts(watchedState, elements, i18n)
+        break
+      case 'uiState.currentPost':
+        toggleModal(watchedState, elements)
+        break
+      default:
+        return
     }
   })
   return watchedState

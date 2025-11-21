@@ -116,6 +116,7 @@ export const watchStateChanges = (state, elements, i18n) => {
         break
       case 'uiState.currentPost':
         toggleModal(watchedState, elements)
+        renderPosts(watchedState, elements, i18n)
         break
       default:
         return

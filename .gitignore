@@ -1,3 +1,14 @@
 /node_modules/
 /dist/
 /.vscode/
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+/__fixtures__/
+/tests/
+/playwright.config.js/

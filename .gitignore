@@ -11,4 +11,4 @@ node_modules/
 /playwright/.auth/
 /__fixtures__/
 /tests/
-/playwright.config.js/
+playwright.config.js

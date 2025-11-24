@@ -5,6 +5,7 @@ import * as yup from 'yup'
 import i18n from 'i18next'
 import { watchStateChanges } from './view.js'
 import ru from './locales/ru.js'
+import getLocale from './locales/getLocale.js'
 import validateURL from './validateURL.js'
 import getPosts from './getPosts.js'
 import updatePosts from './updatePosts.js'
@@ -18,14 +19,7 @@ export default () => {
     },
   })
     .then(() => {
-      yup.setLocale({
-        mixed: {
-          notOneOf: () => i18nInstance.t('errors.duplicate'),
-        },
-        string: {
-          url: () => i18nInstance.t('errors.invalidUrl'),
-        },
-      })
+      yup.setLocale(getLocale())
 
       const state = {
         feeds: [],

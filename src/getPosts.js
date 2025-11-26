@@ -9,16 +9,7 @@ const getUrlContents = (feedUrl) => {
       url: feedUrl,
     },
   })
-    .then((response) => {
-      const contents = parse(response.data.contents, 'text/xml')
-      if (contents.querySelector('parsererror')) {
-        const err = new Error('invalid RSS format')
-        err.type = 'rss'
-        err.name = 'RssError'
-        throw err
-      }
-      return contents
-    })
+    .then(response => parse(response.data.contents, 'text/xml'))
 }
 
 const getPosts = (feedUrl, state) => getUrlContents(feedUrl)

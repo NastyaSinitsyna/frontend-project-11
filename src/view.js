@@ -18,7 +18,9 @@ const renderErrors = (state, elements, i18n) => {
   }
   else {
     input.focus()
-    input.classList.add('is-invalid')
+    if (!state.errors.includes('errors.networkError')) {
+      input.classList.add('is-invalid')
+    }
     feedback.classList.add('text-danger')
     feedback.textContent = state.errors
       .map(errKey => i18n.t(errKey))

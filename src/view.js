@@ -104,6 +104,22 @@ const toggleModal = (state, elements) => {
   modalTextBreak.textContent = targetPostDescription
 }
 
+const updateFormState = (state, elements) => {
+  switch (state.process) {
+    case 'processing':
+      elements.submitButton.disabled = true
+      elements.urlInput.disabled = true
+      break
+    case 'failed':
+      elements.submitButton.disabled = false
+      elements.urlInput.disabled = false
+      break
+    default:
+      elements.submitButton.disabled = false
+      elements.urlInput.disabled = false
+  }
+}
+
 export const watchStateChanges = (state, elements, i18n) => {
   const watchedState = onChange(state, (path) => {
     switch (path) {
@@ -119,6 +135,9 @@ export const watchStateChanges = (state, elements, i18n) => {
       case 'uiState.currentPost':
         toggleModal(watchedState, elements)
         renderPosts(watchedState, elements, i18n)
+        break
+      case 'process':
+        updateFormState(watchedState, elements)
         break
       default:
         return

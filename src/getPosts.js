@@ -10,6 +10,7 @@ const getPosts = (feedUrl, state) => {
     },
   })
     .then((response) => {
+      state.process = 'success'
       const { feedData, postsData } = parse(response.data.contents, 'text/xml')
       const currentFeed = {
         ...feedData,

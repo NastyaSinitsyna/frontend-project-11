@@ -22,6 +22,7 @@ export default () => {
       yup.setLocale(getLocale())
 
       const state = {
+        process: 'filling',
         feeds: [],
         posts: [],
         errors: [],
@@ -37,6 +38,7 @@ export default () => {
         feedsContainer: document.querySelector('.feeds'),
         postsContainer: document.querySelector('.posts'),
         modal: document.querySelector('.modal'),
+        submitButton: document.querySelector('button[type="submit"]'),
       }
 
       const form = document.querySelector('#rss-form')
@@ -45,6 +47,7 @@ export default () => {
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()
+        watchedState.process = 'processing'
         const currentURL = elements.urlInput.value
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
@@ -52,6 +55,7 @@ export default () => {
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
+            watchedState.process = 'failed'
             if (error.name === 'RssError') {
               watchedState.errors = ['errors.invalidRss']
               return

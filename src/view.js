@@ -9,7 +9,7 @@ const renderErrors = (state, elements, i18n) => {
   if (feedback) {
     feedback.textContent = ''
   }
-  if (state.errors.length === 0) {
+  if (!state.error && state.process === 'success') {
     feedback.textContent = i18n.t('success')
     feedback.classList.add('text-success')
     input.classList.remove('is-invalid')
@@ -18,13 +18,11 @@ const renderErrors = (state, elements, i18n) => {
   }
   else {
     input.focus()
-    if (!state.errors.includes('errors.networkError')) {
+    if (state.isFormValid) {
       input.classList.add('is-invalid')
     }
     feedback.classList.add('text-danger')
-    feedback.textContent = state.errors
-      .map(errKey => i18n.t(errKey))
-      .join(', ')
+    feedback.textContent = i18n.t(state.error)
   }
 }
 
@@ -123,7 +121,7 @@ const updateFormState = (state, elements) => {
 export const watchStateChanges = (state, elements, i18n) => {
   const watchedState = onChange(state, (path) => {
     switch (path) {
-      case 'errors':
+      case 'error':
         renderErrors(watchedState, elements, i18n)
         break
       case 'feeds':
@@ -138,6 +136,7 @@ export const watchStateChanges = (state, elements, i18n) => {
         break
       case 'process':
         updateFormState(watchedState, elements)
+        renderErrors(watchedState, elements, i18n)
         break
       default:
         return

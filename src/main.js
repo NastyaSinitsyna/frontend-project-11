@@ -23,9 +23,10 @@ export default () => {
 
       const state = {
         process: 'filling',
+        isFormValid: false,
         feeds: [],
         posts: [],
-        errors: [],
+        error: null,
         uiState: {
           watchedPosts: new Set(),
           currentPost: null,
@@ -51,32 +52,33 @@ export default () => {
         const currentURL = elements.urlInput.value
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
-            watchedState.errors = []
+            watchedState.error = null
+            watchedState.process = 'success'
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
             watchedState.process = 'failed'
             if (error.name === 'RssError') {
-              watchedState.errors = ['errors.invalidRss']
+              watchedState.error = 'errors.invalidRss'
               return
             }
             if (error.name === 'ValidationError') {
               switch (error.type) {
                 case 'notOneOf':
-                  watchedState.errors = ['errors.duplicate']
+                  watchedState.error = 'errors.duplicate'
                   break
                 case 'url':
-                  watchedState.errors = ['errors.invalidUrl']
+                  watchedState.error = 'errors.invalidUrl'
                   break
                 default:
-                  watchedState.errors = ['errors.unknown']
+                  watchedState.error = 'errors.unknown'
               }
             }
             else if (error.isAxiosError) {
-              watchedState.errors = ['errors.networkError']
+              watchedState.error = 'errors.networkError'
             }
             else {
-              watchedState.errors = ['errors.unknown']
+              watchedState.error = 'errors.unknown'
             }
           })
       })

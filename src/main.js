@@ -58,27 +58,18 @@ export default () => {
           })
           .catch((error) => {
             watchedState.process = 'failed'
-            if (error.name === 'RssError') {
-              watchedState.error = 'errors.invalidRss'
-              return
-            }
-            if (error.name === 'ValidationError') {
-              switch (error.type) {
-                case 'notOneOf':
-                  watchedState.error = 'errors.duplicate'
-                  break
-                case 'url':
-                  watchedState.error = 'errors.invalidUrl'
-                  break
-                default:
-                  watchedState.error = 'errors.unknown'
-              }
-            }
-            else if (error.isAxiosError) {
-              watchedState.error = 'errors.networkError'
-            }
-            else {
-              watchedState.error = 'errors.unknown'
+            switch (error.name) {
+              case 'RssError':
+                watchedState.error = 'errors.invalidRss'
+                break
+              case 'AxiosError':
+                watchedState.error = 'errors.networkError'
+                break
+              case 'ValidationError':
+                watchedState.error = `errors.${error.type}`
+                break
+              default:
+                watchedState.error = 'errors.unknown'
             }
           })
       })

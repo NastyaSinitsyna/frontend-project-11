@@ -22,7 +22,7 @@ export default () => {
       yup.setLocale(getLocale())
 
       const state = {
-        process: 'filling',
+        requestStatus: 'idle',
         isFormValid: false,
         feeds: [],
         posts: [],
@@ -48,7 +48,7 @@ export default () => {
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()
-        watchedState.process = 'processing'
+        watchedState.requestStatus = 'processing'
         const currentURL = elements.urlInput.value
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
@@ -57,7 +57,7 @@ export default () => {
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
-            watchedState.process = 'failed'
+            watchedState.requestStatus = 'failed'
             switch (error.name) {
               case 'RssError':
                 watchedState.error = 'errors.invalidRss'

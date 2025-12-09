@@ -29,7 +29,7 @@ const getPosts = (feedUrl, state) => {
           state.posts.push(post)
         }
       })
-      state.process = 'success'
+      state.requestStatus = 'success'
       return state
     })
 }

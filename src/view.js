@@ -9,7 +9,7 @@ const renderErrors = (state, elements, i18n) => {
   if (feedback) {
     feedback.textContent = ''
   }
-  if (state.process === 'success') {
+  if (state.requestStatus === 'success') {
     feedback.textContent = i18n.t('success')
     feedback.classList.add('text-success')
     input.classList.remove('is-invalid')
@@ -103,7 +103,7 @@ const toggleModal = (state, elements) => {
 }
 
 const updateFormState = (state, elements) => {
-  switch (state.process) {
+  switch (state.requestStatus) {
     case 'processing':
       elements.submitButton.disabled = true
       elements.urlInput.disabled = true
@@ -134,7 +134,7 @@ export const watchStateChanges = (state, elements, i18n) => {
         toggleModal(watchedState, elements)
         renderPosts(watchedState, elements, i18n)
         break
-      case 'process':
+      case 'requestStatus':
         updateFormState(watchedState, elements)
         renderErrors(watchedState, elements, i18n)
         break

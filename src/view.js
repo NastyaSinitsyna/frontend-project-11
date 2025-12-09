@@ -18,7 +18,7 @@ const renderErrors = (state, elements, i18n) => {
   }
   else {
     input.focus()
-    if (state.isFormValid) {
+    if (!state.isFormValid) {
       input.classList.add('is-invalid')
     }
     feedback.classList.add('text-danger')

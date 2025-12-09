@@ -53,7 +53,7 @@ export default () => {
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
             watchedState.error = null
-            watchedState.process = 'success'
+            watchedState.isFormValid = true
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {

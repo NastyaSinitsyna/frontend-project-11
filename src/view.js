@@ -9,7 +9,7 @@ const renderErrors = (state, elements, i18n) => {
   if (feedback) {
     feedback.textContent = ''
   }
-  if (!state.error && state.process === 'success') {
+  if (state.process === 'success') {
     feedback.textContent = i18n.t('success')
     feedback.classList.add('text-success')
     input.classList.remove('is-invalid')

@@ -10,8 +10,6 @@ const getPosts = (feedUrl, state) => {
     },
   })
     .then((response) => {
-      state.isFormValid = true
-      state.process = 'success'
       const { feedData, postsData } = parse(response.data.contents, 'text/xml')
       const currentFeed = {
         ...feedData,
@@ -31,6 +29,7 @@ const getPosts = (feedUrl, state) => {
           state.posts.push(post)
         }
       })
+      state.process = 'success'
       return state
     })
 }

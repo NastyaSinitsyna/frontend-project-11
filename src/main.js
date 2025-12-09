@@ -57,7 +57,6 @@ export default () => {
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
-            watchedState.requestStatus = 'failed'
             switch (error.name) {
               case 'RssError':
                 watchedState.error = 'errors.invalidRss'

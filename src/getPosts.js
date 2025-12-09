@@ -35,6 +35,10 @@ const getPosts = (feedUrl, state) => {
       state.requestStatus = 'success'
       return state
     })
+    .catch((error) => {
+      state.requestStatus = 'failed'
+      throw error
+    })
 }
 
 export default getPosts

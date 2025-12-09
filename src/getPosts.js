@@ -22,6 +22,7 @@ const getPosts = (feedUrl, state) => {
 
       const posts = postsData.map(post => ({
         ...post,
+        postId: _.uniqueId(),
         feedId: currentFeed.feedId,
       }))
       posts.forEach((post) => {

@@ -15,7 +15,6 @@ export default (responseContent, format) => {
     title: post.querySelector('title').textContent,
     link: post.querySelector('link').textContent,
     description: post.querySelector('description').textContent,
-    postId: post.querySelector('link').textContent.replace(/\W+/g, '_'),
   }))
   return { feedData, postsData }
 }

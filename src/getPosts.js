@@ -16,7 +16,8 @@ const getPosts = (feedUrl, state) => {
         feedUrl: feedUrl,
         feedId: _.uniqueId(),
       }
-      if (!state.feeds.find(stateFeed => stateFeed.feedUrl === currentFeed.feedUrl)) {
+      const hasFeed = state.feeds.some(stateFeed => stateFeed.feedUrl === currentFeed.feedUrl)
+      if (!hasFeed) {
         state.feeds.push(currentFeed)
       }
 
@@ -26,7 +27,8 @@ const getPosts = (feedUrl, state) => {
         feedId: currentFeed.feedId,
       }))
       posts.forEach((post) => {
-        if (!state.posts.find(statePost => statePost.postId === post.postId)) {
+        const hasPost = state.posts.some(statePost => statePost.postId === post.postId)
+        if (!hasPost) {
           state.posts.push(post)
         }
       })

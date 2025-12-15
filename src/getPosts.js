@@ -23,7 +23,7 @@ const getPosts = (feedUrl, state) => {
 
       const posts = postsData.map(post => ({
         ...post,
-        postId: _.uniqueId(),
+        postId: post.link.replace(/\W+/g, '_'),
         feedId: currentFeed.feedId,
       }))
       posts.forEach((post) => {

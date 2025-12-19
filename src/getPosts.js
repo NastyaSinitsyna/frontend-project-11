@@ -32,7 +32,7 @@ const getPosts = (feedUrl, state) => {
           state.posts.push(post)
         }
       })
-      state.requestStatus = 'success'
+      state.requestStatus = 'idle'
       return state
     })
     .catch((error) => {

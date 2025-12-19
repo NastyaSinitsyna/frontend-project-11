@@ -23,10 +23,10 @@ export default () => {
 
       const state = {
         requestStatus: 'idle',
-        isFormValid: false,
         feeds: [],
         posts: [],
-        error: null,
+        formError: null,
+        requestError: null,
         uiState: {
           watchedPosts: new Set(),
           currentPost: null,
@@ -48,27 +48,27 @@ export default () => {
 
       form.addEventListener('submit', (e) => {
         e.preventDefault()
-        watchedState.requestStatus = 'processing'
         const currentURL = elements.urlInput.value
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
-            watchedState.error = null
-            watchedState.isFormValid = true
+            watchedState.formError = null
+            watchedState.requestError = null
+            watchedState.requestStatus = 'processing'
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
             switch (error.name) {
+              case 'ValidationError':
+                watchedState.formError = `errors.${error.type}`
+                break
               case 'RssError':
-                watchedState.error = 'errors.invalidRss'
+                watchedState.requestError = 'errors.invalidRss'
                 break
               case 'AxiosError':
-                watchedState.error = 'errors.networkError'
-                break
-              case 'ValidationError':
-                watchedState.error = `errors.${error.type}`
+                watchedState.requestError = 'errors.networkError'
                 break
               default:
-                watchedState.error = 'errors.unknown'
+                watchedState.formError = 'errors.unknown'
             }
           })
       })

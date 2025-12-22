@@ -22,11 +22,16 @@ export default () => {
       yup.setLocale(getLocale())
 
       const state = {
-        requestStatus: 'idle',
+        request: {
+          status: 'idle',
+          error: null,
+        },
+        form: {
+          isValid: false,
+          error: null,
+        },
         feeds: [],
         posts: [],
-        formError: null,
-        requestError: null,
         uiState: {
           watchedPosts: new Set(),
           currentPost: null,
@@ -51,24 +56,41 @@ export default () => {
         const currentURL = elements.urlInput.value
         validateURL(currentURL, watchedState)
           .then((validatedUrl) => {
-            watchedState.formError = null
-            watchedState.requestError = null
-            watchedState.requestStatus = 'processing'
+            watchedState.form = {
+              isValid: true,
+              error: null,
+            }
+            watchedState.request = {
+              status: 'processing',
+              error: null,
+            }
             return getPosts(validatedUrl, watchedState)
           })
           .catch((error) => {
             switch (error.name) {
               case 'ValidationError':
-                watchedState.formError = `errors.${error.type}`
+                watchedState.form = {
+                  isValid: false,
+                  error: `errors.${error.type}`,
+                }
                 break
               case 'RssError':
-                watchedState.requestError = 'errors.invalidRss'
+                watchedState.request = {
+                  status: 'failed',
+                  error: 'errors.invalidRss',
+                }
                 break
               case 'AxiosError':
-                watchedState.requestError = 'errors.networkError'
+                watchedState.request = {
+                  status: 'failed',
+                  error: 'errors.networkError',
+                }
                 break
               default:
-                watchedState.formError = 'errors.unknown'
+                watchedState.request = {
+                  status: 'failed',
+                  error: 'errors.unknown',
+                }
             }
           })
       })

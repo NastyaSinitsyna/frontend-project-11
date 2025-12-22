@@ -17,27 +17,31 @@ const getPosts = (feedUrl, state) => {
         feedId: _.uniqueId(),
       }
       const hasFeed = state.feeds.some(stateFeed => stateFeed.feedUrl === currentFeed.feedUrl)
+      const loadedFeeds = []
       if (!hasFeed) {
-        state.feeds.push(currentFeed)
+        loadedFeeds.push(currentFeed)
       }
 
       const posts = postsData.map(post => ({
         ...post,
-        postId: post.link.replace(/\W+/g, '_'),
+        postId: post.link,
         feedId: currentFeed.feedId,
       }))
+      const loadedPosts = []
       posts.forEach((post) => {
         const hasPost = state.posts.some(statePost => statePost.postId === post.postId)
         if (!hasPost) {
-          state.posts.push(post)
+          loadedPosts.push(post)
         }
       })
-      state.requestStatus = 'idle'
+      if (loadedFeeds.length !== 0) {
+        state.feeds.push(...loadedFeeds)
+      }
+      if (loadedPosts.length !== 0) {
+        state.posts.push(...loadedPosts)
+      }
+      state.request = { ...state.request, status: 'idle' }
       return state
-    })
-    .catch((error) => {
-      state.requestStatus = 'failed'
-      throw error
     })
 }
 

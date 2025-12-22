@@ -2,42 +2,44 @@ import 'bootstrap'
 import './style.css'
 import onChange from 'on-change'
 
-const resetForm = (elements) => {
+const handleForm = (state, elements, i18n) => {
   const { urlInput, feedback } = elements
-  urlInput.classList.remove('is-invalid')
-  feedback.classList.remove('text-success', 'text-danger')
-  feedback.textContent = ''
-  urlInput.focus()
-}
-
-const renderFormErrors = (state, elements, i18n) => {
-  if (!state.formError) {
-    return
+  if (state.form.isValid) {
+    feedback.textContent = ''
+    feedback.classList.remove('text-danger')
+    urlInput.classList.remove('is-invalid')
   }
-  resetForm(elements)
-  const { urlInput, feedback } = elements
-  feedback.textContent = i18n.t(state.formError)
-  feedback.classList.add('text-danger')
-  urlInput.classList.add('is-invalid')
-}
-
-const renderRequestErrors = (state, elements, i18n) => {
-  if (!state.requestError) {
-    return
+  else {
+    console.log('invalid form')
+    feedback.textContent = i18n.t(state.form.error)
+    feedback.classList.add('text-danger')
+    urlInput.classList.add('is-invalid')
   }
-  resetForm(elements)
-  const { feedback } = elements
-  feedback.textContent = i18n.t(state.requestError)
-  feedback.classList.add('text-danger')
 }
 
-const renderSuccessRequest = (elements, i18n) => {
-  resetForm(elements)
-  const { urlInput, feedback } = elements
-  feedback.textContent = i18n.t('success')
-  feedback.classList.add('text-success')
-  urlInput.value = ''
-  urlInput.classList.remove('is-invalid')
+const handleRequest = (state, elements, i18n) => {
+  const { urlInput, feedback, submitButton } = elements
+  switch (state.request.status) {
+    case 'processing':
+      urlInput.disabled = true
+      submitButton.disabled = true
+      break
+    case 'idle':
+      if (state.form.isValid) {
+        urlInput.disabled = false
+        submitButton.disabled = false
+        feedback.classList.add('text-success')
+        feedback.textContent = i18n.t('success')
+        urlInput.value = ''
+        urlInput.focus()
+      }
+      break
+    case 'failed':
+      urlInput.disabled = false
+      submitButton.disabled = false
+      feedback.classList.add('text-danger')
+      feedback.textContent = i18n.t(state.request.error)
+  }
 }
 
 const renderFeeds = (state, elements, i18n) => {
@@ -116,12 +118,6 @@ const toggleModal = (state, elements) => {
   modalTextBreak.textContent = targetPostDescription
 }
 
-const updateFormState = (state, elements) => {
-  const isProcessing = state.requestStatus === 'processing'
-  elements.urlInput.disabled = isProcessing
-  elements.submitButton = isProcessing
-}
-
 export const watchStateChanges = (state, elements, i18n) => {
   const watchedState = onChange(state, (path) => {
     switch (path) {
@@ -135,20 +131,11 @@ export const watchStateChanges = (state, elements, i18n) => {
         toggleModal(watchedState, elements)
         renderPosts(watchedState, elements, i18n)
         break
-      case 'requestStatus':
-        updateFormState(watchedState, elements)
-        if (watchedState.requestStatus === 'idle'
-          && watchedState.formError === null
-          && watchedState.requestError === null) {
-          renderSuccessRequest(elements, i18n)
-        }
+      case 'form':
+        handleForm(watchedState, elements, i18n)
         break
-      case 'formError':
-        renderFormErrors(watchedState, elements, i18n)
-        updateFormState(watchedState, elements)
-        break
-      case 'requestError':
-        renderRequestErrors(watchedState, elements, i18n)
+      case 'request':
+        handleRequest(watchedState, elements, i18n)
         break
       default:
         return

@@ -7,8 +7,7 @@ import { watchStateChanges } from './view.js'
 import ru from './locales/ru.js'
 import getLocale from './locales/getLocale.js'
 import validateURL from './validateURL.js'
-import getPosts from './getPosts.js'
-import updatePosts from './updatePosts.js'
+import { getPosts, refreshTimeOut, updatePosts } from './getPosts.js'
 
 export default () => {
   const i18nInstance = i18n.createInstance()
@@ -105,6 +104,6 @@ export default () => {
         watchedState.uiState.currentPost = targetPostId
       })
 
-      updatePosts(state.feeds, watchedState)
+      setTimeout(() => updatePosts(watchedState), refreshTimeOut)
     })
 }

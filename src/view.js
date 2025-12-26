@@ -10,7 +10,6 @@ const handleForm = (state, elements, i18n) => {
     urlInput.classList.remove('is-invalid')
   }
   else {
-    console.log('invalid form')
     feedback.textContent = i18n.t(state.form.error)
     feedback.classList.add('text-danger')
     urlInput.classList.add('is-invalid')
@@ -25,14 +24,12 @@ const handleRequest = (state, elements, i18n) => {
       submitButton.disabled = true
       break
     case 'idle':
-      if (state.form.isValid) {
-        urlInput.disabled = false
-        submitButton.disabled = false
-        feedback.classList.add('text-success')
-        feedback.textContent = i18n.t('success')
-        urlInput.value = ''
-        urlInput.focus()
-      }
+      urlInput.disabled = false
+      submitButton.disabled = false
+      feedback.classList.add('text-success')
+      feedback.textContent = i18n.t('success')
+      urlInput.value = ''
+      urlInput.focus()
       break
     case 'failed':
       urlInput.disabled = false

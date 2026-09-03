@@ -1,11 +1,15 @@
 # RSS-aggregator
 
-**SPA web app for adding RSS feeds, viewing posts and automatically fetching updates**
-**- URL validation**
-**- duplicate feed protection**
-**- posts preview**
-**- marking posts as viewed**
-**- RU interface**
+## Description
+SPA web app for adding RSS feeds, viewing posts and automatically fetching updates
+
+## Features
+- RSS URL validation
+- Duplicate feed protection
+- Automatic feed updates
+- Posts previews
+- Marking posts as viewed
+- RU interface
 
 
 
